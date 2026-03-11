@@ -5,10 +5,10 @@ const fs = require("fs")
 const app = express()
 
 let publicKey = fs.readFileSync("./keys/public.pem", "utf8")
-
 publicKey = publicKey.replace("-----BEGIN PUBLIC KEY-----", "")
 publicKey = publicKey.replace("-----END PUBLIC KEY-----", "")
 publicKey = publicKey.trim()
+
 
 app.get("/login", (req,res)=>{
 
@@ -32,10 +32,10 @@ app.get("/admin",(req,res)=>{
         const decoded = jwt.verify(token, publicKey)
 
         if(decoded.role==="admin"){
-            return res.send("ADMIN ACCESS GRANTED\n")
+            return res.status(200).send("ADMIN ACCESS GRANTED\n")
         }
 
-        res.send("Not admin")
+        res.send("Not admin\n")
 
     }catch(e){
         res.status(401).send("Invalid token\n")
